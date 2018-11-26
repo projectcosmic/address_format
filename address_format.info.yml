@@ -1,0 +1,8 @@
+name: Address Format
+description: Output address field values in a custom format.
+type: module
+core: 8.x
+project: address_format
+version: 8.x-1.0
+dependencies:
+  - 'address:address'

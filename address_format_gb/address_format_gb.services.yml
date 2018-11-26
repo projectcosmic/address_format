@@ -1,0 +1,5 @@
+services:
+  address_format_gb.address_event_subscriber:
+    class: Drupal\address_format_gb\EventSubscriber\AddressEventSubscriber
+    tags:
+      - { name: event_subscriber }

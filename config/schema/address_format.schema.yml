@@ -1,0 +1,9 @@
+# Schema for configuration files of the Address Format module.
+
+field.formatter.settings.custom_format:
+  type: mapping
+  label: 'Custom Format address formatter settings'
+  mapping:
+    format:
+      type: string
+      label: 'Address Format'
