@@ -2,6 +2,12 @@
     "name": "projectcosmic/address_format",
     "description": "Output address field values in a custom format.",
     "type": "drupal-module",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    ],
     "authors": [
         {
             "name": "Justin Wong",
@@ -10,5 +16,8 @@
             "role": "Developer"
         }
     ],
-    "license": "MIT"
+    "license": "MIT",
+    "require": {
+        "drupal/address": "^1.4"
+    }
 }
