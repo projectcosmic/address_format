@@ -100,16 +100,35 @@ class CustomFormatAddressFormatter extends AddressDefaultFormatter {
         $replacements[$child['#placeholder']] = $child['#markup'] ?: '';
       }
     }
-    $content = self::replacePlaceholders($format_string, $replacements);
+    $lines = explode("\n", self::replacePlaceholders($format_string, $replacements));
 
-    // Remove leading and multiple commas.
-    $content = preg_replace(
-      ['/^(?:, )+/', '/(?:, ){2,}/'],
-      ['', ', '],
-      $content
-    );
+    $content = [];
+    foreach ($lines as $line) {
+      // Skip empty lines.
+      if (!preg_match('/\w/', $line)) {
+        continue;
+      }
 
-    return nl2br($content, FALSE);
+      // Remove multiple commas and commas at the start of the line.
+      $content[] = preg_replace(
+        ['/^ *(?:, )+/', '/(?:, ?){2,}/'],
+        ['', ', '],
+        $line
+      );
+    }
+
+    return implode('<br/>', $content);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function replacePlaceholders($string, array $replacements) {
+    $output = parent::replacePlaceholders($string, $replacements);
+
+    // Ensure any placeholders not available for the current address country
+    // are removed.
+    return preg_replace('/%\w+/', '', $output);
   }
 
 }
