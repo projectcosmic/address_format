@@ -1,0 +1,7 @@
+address_format_gb_test.counties:
+  path: '/address-format-gb-test/counties'
+  defaults:
+    _form: '\Drupal\address_format_gb_test\Form\AddressFormatGbTestCountiesForm'
+    _title: 'Great Britain Counties'
+  requirements:
+    _access: 'TRUE'
