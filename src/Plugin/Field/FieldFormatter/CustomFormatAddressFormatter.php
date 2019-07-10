@@ -3,6 +3,7 @@
 namespace Drupal\address_format\Plugin\Field\FieldFormatter;
 
 use Drupal\address\AddressInterface;
+use Drupal\address\FieldHelper;
 use Drupal\address\Plugin\Field\FieldFormatter\AddressDefaultFormatter;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
@@ -61,7 +62,7 @@ class CustomFormatAddressFormatter extends AddressDefaultFormatter {
             '#theme' => 'item_list',
             '#items' => $tokens,
           ],
-        ]
+        ],
       ],
     ];
   }
@@ -70,15 +71,22 @@ class CustomFormatAddressFormatter extends AddressDefaultFormatter {
    * {@inheritdoc}
    */
   protected function viewElement(AddressInterface $address, $langcode) {
-    $element = parent::viewElement($address, $langcode);
+    $country_code = $address->getCountryCode();
+    $countries = $this->countryRepository->getList();
+    $address_format = $this->addressFormatRepository->get($country_code);
+    $values = $this->getValues($address, $address_format);
 
-    // Reduce span tags around address components.
-    foreach (Element::getVisibleChildren($element) as $key) {
-      $field = $element[$key];
+    $element = [];
+    $element['country'] = [
+      '#plain_text' => $countries[$country_code],
+      '#placeholder' => '%country',
+    ];
+    foreach ($address_format->getUsedFields() as $field) {
+      $property = FieldHelper::getPropertyName($field);
 
-      $element[$key] = [
-        '#plain_text' => $field['#value'],
-        '#placeholder' => $field['#placeholder'],
+      $element[$property] = [
+        '#plain_text' => $values[$field],
+        '#placeholder' => "%$field",
       ];
     }
 

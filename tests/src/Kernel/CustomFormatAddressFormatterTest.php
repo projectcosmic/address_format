@@ -119,4 +119,42 @@ class CustomFormatAddressFormatter extends FormatterTestBase {
     $this->assertRaw($expected, 'Commas at the start of the line should be removed.');
   }
 
+  /**
+   * Test markup escaping.
+   *
+   * @dataProvider markupEscapingProvider
+   */
+  public function testMarkupEscaping($address, $expected) {
+    $entity = EntityTest::create([]);
+    $entity->{$this->fieldName} = $address;
+
+    $build = $this->display->build($entity);
+    $output = $this->container->get('renderer')->renderPlain($build);
+    $this->setRawContent($output);
+
+    $this->assertRaw(sprintf('<p class="address" translate="no">%s</p>', $expected));
+  }
+
+  /**
+   * Provides test cases for markup escaping tests.
+   */
+  public function markupEscapingProvider() {
+    return [
+      'HTML entity' => [
+        [
+          'organization' => 'Jack & Jill',
+          'country_code' => 'GB',
+        ],
+        'Jack &amp; Jill',
+      ],
+      'HTML tag' => [
+        [
+          'organization' => '<script>Foo</script> Bar Baz',
+          'country_code' => 'GB',
+        ],
+        '&lt;script&gt;Foo&lt;/script&gt; Bar Baz',
+      ],
+    ];
+  }
+
 }
