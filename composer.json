@@ -18,6 +18,7 @@
     ],
     "license": "MIT",
     "require": {
-        "drupal/address": "^1.4"
+        "drupal/address": "^1.4",
+        "drupal/core": "^8 || ^9"
     }
 }
