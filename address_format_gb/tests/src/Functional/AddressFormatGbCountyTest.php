@@ -20,6 +20,11 @@ class AddressFormatGbCountyTest extends BrowserTestBase {
   ];
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * Tests GB country address has a county input.
    */
   public function testGbCountyInput() {
