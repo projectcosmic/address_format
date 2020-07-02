@@ -10,7 +10,7 @@ use Drupal\Tests\address\Kernel\Formatter\FormatterTestBase;
  *
  * @group custom_format
  */
-class CustomFormatAddressFormatter extends FormatterTestBase {
+class CustomFormatAddressFormatterTest extends FormatterTestBase {
 
   /**
    * {@inheritdoc}
