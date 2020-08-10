@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.5] - 2020-08-10
+### Changed
+- Exclude development files from archive
+
+### Fixed
+- Fix test module info.yml
+
 ## [1.0.4] - 2020-07-02
 ### Fixed
 - Add defaultTheme to functional test
@@ -31,7 +38,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## 1.0.0 - 2018-11-26
 - Initial release
 
-[Unreleased]: https://bitbucket.org/projectcosmic/address_format/branches/compare/HEAD..v1.0.4
+[Unreleased]: https://bitbucket.org/projectcosmic/address_format/branches/compare/HEAD..v1.0.5
+[1.0.5]: https://bitbucket.org/projectcosmic/address_format/branches/compare/v1.0.5..v1.0.4
 [1.0.4]: https://bitbucket.org/projectcosmic/address_format/branches/compare/v1.0.4..1.0.3
 [1.0.3]: https://bitbucket.org/projectcosmic/address_format/branches/compare/1.0.3..1.0.2
 [1.0.2]: https://bitbucket.org/projectcosmic/address_format/branches/compare/1.0.2..1.0.1
