@@ -1,0 +1,54 @@
+version: 2.1
+
+jobs:
+  test:
+    parameters:
+      version:
+        type: string
+        description: Major version of Drupal to test with
+        default: latest
+    docker:
+      - image: projectcosmic/drupal:<<parameters.version>>
+      - image: circleci/mysql:5.7-ram
+    resource_class: small
+    environment:
+      BROWSERTEST_OUTPUT_DIRECTORY: web/sites/simpletest/browser_output
+      SIMPLETEST_BASE_URL: http://127.0.0.1
+      SIMPLETEST_DB: mysql://root@127.0.0.1/circle_test
+    working_directory: /opt/drupal/web/modules/custom/address_format
+    steps:
+      - checkout
+      - restore_cache:
+          key: composer:test:<<parameters.version>>
+      - run: |
+          cd /opt/drupal
+          composer require drupal/address
+      - save_cache:
+          key: composer:test:<<parameters.version>>
+          paths:
+            - /opt/drupal/vendor
+            - /opt/drupal/web/modules/contrib
+            - /opt/drupal/web/themes/contrib
+            - /opt/drupal/web/profiles/contrib
+            - /opt/drupal/composer.json
+            - /opt/drupal/composer.lock
+      - run:
+          name: PHP_CodeSniffer && PHPUnit
+          command: |
+            cd /opt/drupal
+            mkdir --parents ./test-results/PHP_CodeSniffer
+            ./vendor/bin/phpcs --runtime-set ignore_warnings_on_exit 1 --report-junit=test-results/PHP_CodeSniffer/results.xml --report-full --standard=Drupal,DrupalPractice web/modules/custom/address_format
+            mkdir --parents ./web/sites/simpletest/browser_output
+            service apache2 start
+            chown --recursive www-data:www-data .
+            sudo -u www-data -E ./vendor/bin/phpunit -c ./web/core --testdox --log-junit test-results/PHPUnit/results.xml web/modules/custom/address_format
+      - store_test_results:
+          path: /opt/drupal/test-results
+
+workflows:
+  test:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              version: ['8', '9']
