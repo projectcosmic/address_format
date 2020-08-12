@@ -2,5 +2,3 @@ name: Address Format Great Britain Test Module
 type: module
 description: Test module for Address Format Great Britain module.
 package: Testing
-core: 8.x
-core_version_requirement: ^8 || ^9
